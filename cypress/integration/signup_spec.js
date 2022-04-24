@@ -30,11 +30,7 @@ describe('Verify the SignUp Page', () => {
         let fakePassword = 'Test123!'
         let fakePhoneNumber = faker.phone.phoneNumber('+123############') 
 
-        signupPage.enterEmail(fakeEmail)
-        signupPage.enterName(fakeFirstName)
-        signupPage.enterPassword(fakePassword)
-        signupPage.confirmPassword(fakePassword)
-        signupPage.enterPhoneNumber(fakePhoneNumber)
+        signupPage.signUp(fakeEmail, fakeFirstName, fakePassword, fakePassword, fakePhoneNumber)
         signupPage.checkTermsAndConditions()
         signupPage.clickOnSignUp()
 
@@ -49,4 +45,18 @@ describe('Verify the SignUp Page', () => {
         cy.contains(fakeEmail)
 
     })
+
+    it ('can not create an account when valid empty data is entered', () => {
+
+        signupPage.signUp()
+        signupPage.clickOnSignUp()
+
+        cy.contains('Email is required.')
+        cy.contains('Name is required.')
+        cy.contains('Password is required.')
+        cy.contains('Confirm password is required.')
+        cy.contains('Phone number is required. Please use +123 format.')
+        cy.contains('Please accept our Terms & Conditions.')
+    })
+
 })
