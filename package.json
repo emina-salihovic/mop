@@ -1,0 +1,20 @@
+{
+  "name": "mop",
+  "version": "1.0.0",
+  "description": "E2E Automation task",
+  "main": "index.js",
+  "scripts": {
+    "test": "cypress open"
+  },
+  "keywords": [
+    "automation",
+    "testing"
+  ],
+  "author": "Emina Salihovic",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "@faker-js/faker": "^6.2.0",
+    "cypress": "^9.5.4"
+  }
+}
