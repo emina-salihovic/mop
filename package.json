@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "cypress open",
-    "test-api": "mocha api --timeout 10000"
+    "test-api": "mocha api --timeout 10000",
+    "test-load": "MULTICORE=1 ARTILLERY_WORKERS=4 npx artillery run load.yml -o output.json",
+    "test-load-report": "npx artillery report --output report.html output.json"
   },
   "keywords": [
     "automation",
@@ -16,6 +18,7 @@
   "dependencies": {},
   "devDependencies": {
     "@faker-js/faker": "^6.2.0",
+    "artillery": "^2.0.0-14",
     "chai": "^4.3.6",
     "chai-http": "^4.3.0",
     "cypress": "^9.5.4",
