@@ -43,7 +43,6 @@ describe('Verify the Change Password Page', () => {
                 cy.logout()
 
                 cy.login(user.email, 'NewPass123!')
-
             })
         })
     })

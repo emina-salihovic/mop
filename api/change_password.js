@@ -22,11 +22,11 @@ describe('Change Password', () => {
 
             let agent = await chai.request.agent(config.apiBaseUrl)
 
-            await agent //@todo use base url from config/env
+            await agent
                 .post('/account/register')
                 .send(user);
 
-            let loginResponse = await agent //@todo use base url from config/env
+            let loginResponse = await agent
                 .post('/account/login')
                 .send(user)
 
