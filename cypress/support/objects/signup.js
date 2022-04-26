@@ -13,31 +13,31 @@ const phoneNumberField = () => cy.get("[data-testid=phone-number-signup]")
 const termsAndConditionsCheckbox = () => cy.get("[data-testid=terms-and-conditions-signup]")
 const signUpButton = () => cy.get("[data-testid=signup-button]")
 
- 
- /**
-  * Actions Section
-  */
-export function checkTermsAndConditions() {
-    termsAndConditionsCheckbox().should('not.be.visible').check({ force: true }).should('be.checked')  
- }
- 
- export function clickOnSignUp() {
-    signUpButton().click()
- }
- 
- /**
-  * Assertion Section
-  */
- export function isSignUpPageVisible() {
-     emailField().should('be.visible')
-     nameField().should('be.visible')
-     passwordField().should('be.visible')
-     confirmPasswordField().should('be.visible')
-     phoneNumberField().should('be.visible')
-     signUpButton().should('be.visible')
- }
 
- export function signUp(email = null, firstName = null, password = null, confirmPassword = null, phoneNumber = null) {
+/**
+ * Actions Section
+ */
+export function checkTermsAndConditions() {
+    termsAndConditionsCheckbox().should('not.be.visible').check({ force: true }).should('be.checked')
+}
+
+export function clickOnSignUp() {
+    signUpButton().click()
+}
+
+/**
+ * Assertion Section
+ */
+export function isSignUpPageVisible() {
+    emailField().should('be.visible')
+    nameField().should('be.visible')
+    passwordField().should('be.visible')
+    confirmPasswordField().should('be.visible')
+    phoneNumberField().should('be.visible')
+    signUpButton().should('be.visible')
+}
+
+export function signUp(email = null, firstName = null, password = null, confirmPassword = null, phoneNumber = null) {
 
     if (email) {
         emailField().clear().type(email)

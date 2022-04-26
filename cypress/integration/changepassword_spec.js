@@ -1,17 +1,17 @@
-import * as changePasswordPage from "../support/objects/changepassword";
+import * as changePasswordPage from "../support/objects/changepassword"
 
-describe('Verify the Change Password Page', () => {  
+describe('Verify the Change Password Page', () => {
     beforeEach(() => {
         cy.window().then((window) => {
-            window.sessionStorage.clear();
-            window.localStorage.clear();
+            window.sessionStorage.clear()
+            window.localStorage.clear()
         });
-        
-        cy.visit('/login');
+
+        cy.visit('/login')
 
         cy.url().then(url => {
-            if (! url.includes('login')) {
-                cy.logout()   
+            if (!url.includes('login')) {
+                cy.logout()
             }
         })
     })
@@ -19,7 +19,7 @@ describe('Verify the Change Password Page', () => {
     it('is visible', () => {
         let fakeUser = cy.fakeUserData().then(user => {
             cy.signup(user).then(response => {
-                cy.login(user.email,user.password)
+                cy.login(user.email, user.password)
             })
         })
 
@@ -27,7 +27,7 @@ describe('Verify the Change Password Page', () => {
         changePasswordPage.isChangePasswordPageVisible()
     })
 
-    it ('can change the password', () => {
+    it('can change the password', () => {
         let fakeUser = cy.fakeUserData().then(user => {
             cy.signup(user).then(response => {
 
@@ -46,5 +46,5 @@ describe('Verify the Change Password Page', () => {
             })
         })
     })
-   
+
 })

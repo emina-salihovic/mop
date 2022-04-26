@@ -1,10 +1,10 @@
-process.env.NODE_ENV = 'test'; //@todo add dotenv for .env file support
+process.env.NODE_ENV = 'test' //@todo add dotenv for .env file support
 
 let faker = require('@faker-js/faker').faker
-let chai = require('chai');
-let chaiHttp = require('chai-http');
-let should = chai.should();
-let expect = chai.expect;
+let chai = require('chai')
+let chaiHttp = require('chai-http')
+let should = chai.should()
+let expect = chai.expect
 let config = require('./config')
 
 chai.use(chaiHttp);
@@ -23,11 +23,11 @@ describe('Signup', () => {
                     phoneNumber: faker.phone.phoneNumber('+123############')
                 })
 
-            res.should.have.status(200);
-            res.body.should.be.a('object');
-            res.body.should.have.property('data').that.includes.all.keys(['accessToken', 'refreshToken']);
-            expect(res).to.be.json;
-        });
+            res.should.have.status(200)
+            res.body.should.be.a('object')
+            res.body.should.have.property('data').that.includes.all.keys(['accessToken', 'refreshToken'])
+            expect(res).to.be.json
+        })
 
         it('it should not register a new user account with empty data', async () => {
 
@@ -93,7 +93,7 @@ describe('Signup', () => {
 
             await chai.request(config.apiBaseUrl)
                 .post('/account/register')
-                .send(user);
+                .send(user)
 
             let res = await chai.request(config.apiBaseUrl).post('/account/register')
                 .send({

@@ -3,18 +3,18 @@ import * as loginPage from "../support/objects/login";
 
 Cypress.Commands.add('signup', (user) => {
     return cy.request({
-        method: 'POST', 
-        url: Cypress.config('apiBaseUrl') + '/account/register', 
+        method: 'POST',
+        url: Cypress.config('apiBaseUrl') + '/account/register',
         body: user
     })
 })
 
 Cypress.Commands.add('login', (email, password) => {
     cy.visit('/login')
-    
+
     loginPage.enterEmail(email)
     loginPage.enterPassword(password)
-    
+
     loginPage.clickOnLogInButton()
 
     cy.url().should('contain', '/events')

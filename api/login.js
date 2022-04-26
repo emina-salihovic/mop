@@ -1,13 +1,13 @@
-process.env.NODE_ENV = 'test'; //@todo add dotenv for .env file support
+process.env.NODE_ENV = 'test' //@todo add dotenv for .env file support
 
 let faker = require('@faker-js/faker').faker
-let chai = require('chai');
-let chaiHttp = require('chai-http');
-let should = chai.should();
+let chai = require('chai')
+let chaiHttp = require('chai-http')
+let should = chai.should()
 let expect = chai.expect
 let config = require('./config')
 
-chai.use(chaiHttp);
+chai.use(chaiHttp)
 
 describe('Login', () => {
     describe('/POST /account/login', () => {
@@ -22,19 +22,19 @@ describe('Login', () => {
 
             await chai.request(config.apiBaseUrl)
                 .post('/account/register')
-                .send(user);
+                .send(user)
 
             let res = await chai.request(config.apiBaseUrl) 
                 .post('/account/login')
                 .send({
                     email: user.email,
-                    password: user.password,
+                    password: user.password
                 })
 
-            res.should.have.status(200);
-            res.body.should.be.a('object');
-            res.body.should.have.property('data').that.includes.all.keys(['accessToken', 'refreshToken']);
-            expect(res).to.be.json;
+            res.should.have.status(200)
+            res.body.should.be.a('object')
+            res.body.should.have.property('data').that.includes.all.keys(['accessToken', 'refreshToken'])
+            expect(res).to.be.json
         })
 
         it('it should not log in a user account with empty data', async () => {
@@ -42,8 +42,8 @@ describe('Login', () => {
             let res = await chai.request(config.apiBaseUrl) 
                 .post('/account/login').send({})
 
-            res.should.have.status(400);
-            res.body.should.be.a('object');
+            res.should.have.status(400)
+            res.body.should.be.a('object')
             res.body.error.validation.should.deep.include({
                 Email: "email_required",
                 Password: "password_required"
@@ -59,8 +59,8 @@ describe('Login', () => {
                     password: 'Test123!'
                 })
 
-            res.should.have.status(400);
-            res.body.should.be.a('object');
+            res.should.have.status(400)
+            res.body.should.be.a('object')
             res.body.error.validation.should.deep.include({
                 Email: "email_email"
             })
@@ -75,8 +75,8 @@ describe('Login', () => {
                     password: 'Test123!'
                 })
 
-            res.should.have.status(400);
-            res.body.should.be.a('object');
+            res.should.have.status(400)
+            res.body.should.be.a('object')
             res.body.error.cause.cause.should.deep.include({ message: "user does not exist" })
 
         })
@@ -92,7 +92,7 @@ describe('Login', () => {
 
             await chai.request(config.apiBaseUrl)
                 .post('/account/register')
-                .send(user);
+                .send(user)
 
             let res = await chai.request(config.apiBaseUrl) 
                 .post('/account/login')
@@ -101,8 +101,8 @@ describe('Login', () => {
                     password: "WrongPassword123!"
                 })
 
-            res.should.have.status(400);
-            res.body.should.be.a('object');
+            res.should.have.status(400)
+            res.body.should.be.a('object')
             res.body.error.cause.cause.should.deep.include({ message: "passwords don't match"})
         })
 

@@ -1,13 +1,13 @@
-process.env.NODE_ENV = 'test'; //@todo add dotenv for .env file support
+process.env.NODE_ENV = 'test' //@todo add dotenv for .env file support
 
 let faker = require('@faker-js/faker').faker
-let chai = require('chai');
-let chaiHttp = require('chai-http');
-let should = chai.should();
+let chai = require('chai')
+let chaiHttp = require('chai-http')
+let should = chai.should()
 let expect = chai.expect
 let config = require('./config')
 
-chai.use(chaiHttp);
+chai.use(chaiHttp)
 
 describe('Account Information', () => {
     describe('/PUT /account/profile', () => {
@@ -24,7 +24,7 @@ describe('Account Information', () => {
 
             await agent
                 .post('/account/register')
-                .send(user);
+                .send(user)
 
             let response = await agent
                 .post('/account/login')
@@ -39,21 +39,23 @@ describe('Account Information', () => {
                 .set({ "Authorization": `Bearer ${accessToken}` })
                 .send({
                     address: newAddress,
-                    name: newName,
+                    name: newName
                 })
 
             let getProfileResponse = await agent.get('/account/profile')
                 .set({ "Authorization": `Bearer ${accessToken}` })
                 .send()
 
-            getProfileResponse.should.have.status(200);
-            getProfileResponse.body.should.be.a('object');
-            getProfileResponse.body.should.have.property('data').that.includes.all.keys(['name', 'address']);
+            getProfileResponse.should.have.status(200)
+            getProfileResponse.body.should.be.a('object')
+            getProfileResponse.body.should.have.property('data').that.includes.all.keys(['name', 'address'])
 
-            getProfileResponse.body.data.should.deep.include({ name: newName });
-            getProfileResponse.body.data.should.deep.include({ address: newAddress });
+            getProfileResponse.body.data.should.deep.include({ name: newName })
+            getProfileResponse.body.data.should.deep.include({ address: newAddress })
 
-            expect(getProfileResponse).to.be.json;
+            expect(getProfileResponse).to.be.json
         })
+
+     
     })
 })
