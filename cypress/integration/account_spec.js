@@ -1,6 +1,6 @@
 import * as accountInformationPage from "../support/objects/account"
 
-describe('Verify the Account Information Page', () => {
+describe('Account informtion page: Verify the user', () => {
     beforeEach(() => {
         cy.window().then((window) => {
             window.sessionStorage.clear()
@@ -26,15 +26,17 @@ describe('Verify the Account Information Page', () => {
 
     })
 
-    it('is visible', () => {
-        accountInformationPage.isAccountInformationPageVisible()
-    })
-
-    it('can be edited', () => {
+    it('can edit account information with valid data', () => {
         accountInformationPage.enterName('Emina Salihovic')
         accountInformationPage.enterAddress('Laticka 1')
         accountInformationPage.clickOnupdateButton()
         accountInformationPage.isAccountInformationUpdated('Emina Salihovic', 'Laticka 1')
+    })
+
+    it('can not edit account with empty data', () => {
+        accountInformationPage.enterName()
+        accountInformationPage.clickOnupdateButton()
+        cy.contains('Full name is required.')
     })
 
 })

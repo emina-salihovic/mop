@@ -13,6 +13,11 @@ const phoneNumberField = () => cy.get("[data-testid=phone-number-signup]")
 const termsAndConditionsCheckbox = () => cy.get("[data-testid=terms-and-conditions-signup]")
 const signUpButton = () => cy.get("[data-testid=signup-button]")
 
+const registrationCode = () => cy.get("[data-testid=registration-code-mfa")
+const verifyButton = () => cy.get("[data-testid=pba-signup-button")
+const gotItButton = () => cy.get("button[data-testid=''")
+const avatar = () => cy.get('a[href*="settings"]')
+
 
 /**
  * Actions Section
@@ -23,18 +28,6 @@ export function checkTermsAndConditions() {
 
 export function clickOnSignUp() {
     signUpButton().click()
-}
-
-/**
- * Assertion Section
- */
-export function isSignUpPageVisible() {
-    emailField().should('be.visible')
-    nameField().should('be.visible')
-    passwordField().should('be.visible')
-    confirmPasswordField().should('be.visible')
-    phoneNumberField().should('be.visible')
-    signUpButton().should('be.visible')
 }
 
 export function signUp(email = null, firstName = null, password = null, confirmPassword = null, phoneNumber = null) {
@@ -59,3 +52,30 @@ export function signUp(email = null, firstName = null, password = null, confirmP
         phoneNumberField().clear().type(phoneNumber)
     }
 }
+
+export function goThroughSignUpProcess() {
+    cy.url().should('contain', '/pba')
+    registrationCode().type("9999")
+    verifyButton().click()
+    gotItButton().click()
+    cy.url().should('contain', '/events')
+    avatar().click()
+}
+
+/**
+ * Assertion Section
+ */
+export function isEmptyDataErrorMessageShown() {
+    cy.contains('Email is required.')
+    cy.contains('Name is required.')
+    cy.contains('Password is required.')
+    cy.contains('Confirm password is required.')
+    cy.contains('Phone number is required. Please use +123 format.')
+    cy.contains('Please accept our Terms & Conditions.')
+}
+
+export function isUserSignedUp(name, email) {
+    cy.contains(name)
+    cy.contains(email)
+}
+

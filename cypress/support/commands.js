@@ -9,15 +9,21 @@ Cypress.Commands.add('signup', (user) => {
     })
 })
 
-Cypress.Commands.add('login', (email, password) => {
+Cypress.Commands.add('login', (email = null, password = null, expectedUrl = '/events') => {
     cy.visit('/login')
 
-    loginPage.enterEmail(email)
-    loginPage.enterPassword(password)
+    if (email) {
+        loginPage.enterEmail(email)
+    }
+
+    if (password) {
+        loginPage.enterPassword(password)
+    }
 
     loginPage.clickOnLogInButton()
 
-    cy.url().should('contain', '/events')
+    cy.url().should('contain', expectedUrl)
+
 })
 
 Cypress.Commands.add('logout', () => {

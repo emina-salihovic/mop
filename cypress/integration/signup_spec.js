@@ -1,7 +1,7 @@
 import * as signupPage from "../support/objects/signup"
 import { faker } from '@faker-js/faker'
 
-describe('Verify the SignUp Page', () => {
+describe('Sign up page: Verify the user', () => {
     beforeEach(() => {
         cy.window().then((window) => {
             window.sessionStorage.clear()
@@ -20,11 +20,7 @@ describe('Verify the SignUp Page', () => {
         })
     })
 
-    it('is visible', () => {
-        signupPage.isSignUpPageVisible()
-    })
-
-    it('can create an account when valid data is entered', () => {
+    it('can Sign up with valid data', () => {
         let fakeEmail = faker.internet.email()
         let fakeFirstName = faker.name.firstName()
         let fakePassword = 'Test123!'
@@ -34,32 +30,20 @@ describe('Verify the SignUp Page', () => {
         signupPage.checkTermsAndConditions()
         signupPage.clickOnSignUp()
 
-        cy.url().should('contain', '/pba')
-        cy.get("[data-testid=registration-code-mfa").type("9999")
-        cy.get("[data-testid=pba-signup-button").click()
-        cy.get("button[data-testid=''").click()
-        cy.url().should('contain', '/events')
-        cy.get('a[href*="settings"]').click()
-
-        cy.contains(fakeFirstName)
-        cy.contains(fakeEmail)
+        signupPage.goThroughSignUpProcess()
+        signupPage.isUserSignedUp(fakeFirstName, fakeEmail)
 
     })
 
-    it('can not create an account when empty data is entered', () => {
+    it('can not Sign up with empty data', () => {
 
         signupPage.signUp()
         signupPage.clickOnSignUp()
+        signupPage.isEmptyDataErrorMessageShown()
 
-        cy.contains('Email is required.')
-        cy.contains('Name is required.')
-        cy.contains('Password is required.')
-        cy.contains('Confirm password is required.')
-        cy.contains('Phone number is required. Please use +123 format.')
-        cy.contains('Please accept our Terms & Conditions.')
     })
 
-    it('can not create an account when invalid email format is entered', () => {
+    it('can not Sign up with invalid email format', () => {
 
         let fakeFirstName = faker.name.firstName()
         let fakePassword = 'Test123!'
@@ -72,11 +56,10 @@ describe('Verify the SignUp Page', () => {
         cy.contains('Please enter a valid email.')
     })
 
-    it('can not create an account when already used email is entered', () => {
+    it('can not Sign up with existing user email', () => {
         let fakeUser = cy.fakeUserData().then(user => {
             cy.signup(user).then(response => {
 
-                cy.login(user.email, user.password)
                 cy.visit('/signup')
 
                 signupPage.signUp(user.email, 'Name', user.password, user.password, user.phoneNumber)
@@ -88,7 +71,20 @@ describe('Verify the SignUp Page', () => {
         })
     })
 
-    it('can not create an account when passwords are not matching', () => {
+    it('can not Sign up with invalid password format', () => {
+        let fakeEmail = faker.internet.email()
+        let fakeFirstName = faker.name.firstName()
+        let fakePassword = 'pass'
+        let fakePhoneNumber = faker.phone.phoneNumber('+123############')
+
+        signupPage.signUp(fakeEmail, fakeFirstName, fakePassword, fakePassword, fakePhoneNumber)
+        signupPage.checkTermsAndConditions()
+        signupPage.clickOnSignUp()
+
+        cy.contains('Password must be at least 8 characters long, contain both uppercase and lowercase English letters, special character and number.')
+    })
+
+    it('can not Sign up with unmatched passwords', () => {
         let fakeEmail = faker.internet.email()
         let fakeFirstName = faker.name.firstName()
         let fakePassword = 'Test123!'
@@ -99,6 +95,19 @@ describe('Verify the SignUp Page', () => {
         signupPage.clickOnSignUp()
 
         cy.contains('Both passwords have to be the same.')
+    })
+
+    it('can not Sign up with invalid format for phone number', () => {
+        let fakeEmail = faker.internet.email()
+        let fakeFirstName = faker.name.firstName()
+        let fakePassword = 'Test123!'
+        let fakePhoneNumber = faker.phone.phoneNumber('############')
+
+        signupPage.signUp(fakeEmail, fakeFirstName, fakePassword, fakePassword, fakePhoneNumber)
+        signupPage.checkTermsAndConditions()
+        signupPage.clickOnSignUp()
+
+        cy.contains('Please use +123 format.')
     })
 
 })
