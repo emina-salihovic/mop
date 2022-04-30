@@ -3,6 +3,7 @@ process.env.NODE_ENV = 'test' //@todo add dotenv for .env file support
 let faker = require('@faker-js/faker').faker
 let chai = require('chai')
 let chaiHttp = require('chai-http')
+let should = chai.should()
 let expect = chai.expect
 let config = require('./config')
 
