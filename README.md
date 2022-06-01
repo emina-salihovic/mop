@@ -1,6 +1,6 @@
 # MoP QA Engineer task
 
-## Loacl setup
+## Local setup
 
 * Clone this repository
 * Run `npm install` within the project root
